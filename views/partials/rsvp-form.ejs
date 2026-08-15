@@ -1,37 +1,44 @@
 <%
+  const preview = typeof previewMode !== 'undefined' && previewMode;
   const prefill = (typeof formOverride !== 'undefined' && formOverride) ? formOverride : (invite.rsvp || {});
 %>
 <% if (typeof error !== 'undefined' && error) { %>
   <p class="error-note"><%= error %></p>
 <% } %>
 
-<form class="rsvp-form" method="POST" action="/i/<%= invite.token %>/rsvp">
-  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+<form class="rsvp-form" method="POST" action="<%= preview ? '#' : `/i/${invite.token}/rsvp` %>" <%= preview ? 'onsubmit="return false;"' : '' %>>
+  <% if (!preview) { %>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <% } %>
 
   <div class="field">
     <label for="name">Your name</label>
-    <input type="text" id="name" name="name" placeholder="Full name" required maxlength="120" value="<%= prefill.name || '' %>">
+    <input type="text" id="name" name="name" placeholder="Full name" required maxlength="120" value="<%= prefill.name || '' %>" <%= preview ? 'disabled' : '' %>>
   </div>
 
   <div class="field">
     <label>Will you be attending?</label>
     <div class="attending-choice">
-      <input type="radio" id="yes" name="attending" value="yes" <%= prefill.attending !== 'no' ? 'checked' : '' %>>
+      <input type="radio" id="yes" name="attending" value="yes" <%= prefill.attending !== 'no' ? 'checked' : '' %> <%= preview ? 'disabled' : '' %>>
       <label for="yes">🎉 Joyfully accept</label>
-      <input type="radio" id="no" name="attending" value="no" <%= prefill.attending === 'no' ? 'checked' : '' %>>
+      <input type="radio" id="no" name="attending" value="no" <%= prefill.attending === 'no' ? 'checked' : '' %> <%= preview ? 'disabled' : '' %>>
       <label for="no">Can't make it</label>
     </div>
   </div>
 
   <div class="field">
     <label for="guests">Number of guests (including you) — <%= event.guestRange.min %>&ndash;<%= event.guestRange.max %></label>
-    <input type="number" id="guests" name="guests" min="<%= event.guestRange.min %>" max="<%= event.guestRange.max %>" value="<%= prefill.guests || event.guestRange.min %>">
+    <input type="number" id="guests" name="guests" min="<%= event.guestRange.min %>" max="<%= event.guestRange.max %>" value="<%= prefill.guests || event.guestRange.min %>" <%= preview ? 'disabled' : '' %>>
   </div>
 
   <div class="field">
     <label for="note">A note for the hosts (optional)</label>
-    <textarea id="note" name="note" rows="2" maxlength="500" placeholder="Dietary notes, a message, anything else..."><%= prefill.note || '' %></textarea>
+    <textarea id="note" name="note" rows="2" maxlength="500" placeholder="Dietary notes, a message, anything else..." <%= preview ? 'disabled' : '' %>><%= prefill.note || '' %></textarea>
   </div>
 
-  <button type="submit" class="submit-btn"><%= invite.rsvp ? 'Update RSVP' : 'Send RSVP' %></button>
+  <% if (preview) { %>
+    <button type="button" class="submit-btn" disabled style="opacity:0.5; cursor:not-allowed;">Preview only — no real invite link yet</button>
+  <% } else { %>
+    <button type="submit" class="submit-btn"><%= invite.rsvp ? 'Update RSVP' : 'Send RSVP' %></button>
+  <% } %>
 </form>

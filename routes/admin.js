@@ -94,6 +94,23 @@ function makeAdminRouter({ store, auth, upload, uploadsRoot, csrf, backgrounds, 
     renderEditPage(req, res, event, { saved: req.query.saved === '1', csrfToken: csrf.issueToken(req, res) });
   });
 
+  // Lets the host see exactly what a guest will see before any invite
+  // link is generated/sent — no real invite/token involved, RSVP form
+  // is inert.
+  router.get('/admin/events/:id/preview', requireAdmin, (req, res) => {
+    const event = store.getEvent(req.params.id);
+    if (!event) return res.status(404).render('error', { message: 'Event not found.' });
+    res.render('event-birthday', {
+      event,
+      invite: { token: null, rsvp: null },
+      csrfToken: null,
+      saved: false,
+      error: null,
+      formOverride: null,
+      previewMode: true
+    });
+  });
+
   router.post('/admin/events/:id', requireAdmin, (req, res, next) => {
     // Wrapped manually so a bad/oversized upload re-renders the form with
     // an error instead of falling through to the generic error page.

@@ -8,6 +8,12 @@
   <link rel="stylesheet" href="/css/backgrounds.css">
 </head>
 <body class="bg-<%= event.background %>">
+  <% if (typeof previewMode !== 'undefined' && previewMode) { %>
+    <div style="position:sticky; top:0; z-index:10; background:#1F2937; color:#fff; text-align:center; padding:10px 16px; font-size:13px; font-weight:600;">
+      Preview mode — this is what guests will see. No invite link is involved.
+      <a href="/admin/events/<%= event.id %>/edit" style="color:#fff; text-decoration:underline;">Back to editor</a>
+    </div>
+  <% } %>
   <div class="page">
     <div class="card">
       <div class="card-body">
@@ -55,7 +61,8 @@
           invite,
           csrfToken,
           error: typeof error !== 'undefined' ? error : null,
-          formOverride: typeof formOverride !== 'undefined' ? formOverride : null
+          formOverride: typeof formOverride !== 'undefined' ? formOverride : null,
+          previewMode: typeof previewMode !== 'undefined' ? previewMode : false
         }) %>
       </div>
     </div>
