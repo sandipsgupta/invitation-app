@@ -146,3 +146,14 @@ a starting point.
 **Phase 3** — Real per-user admin accounts (extending `lib/auth.js`) if
 the app is opened up to other households. Storage is *not* on this
 roadmap — see the database note above.
+
+## Backlog (small, deferred)
+
+- **Gate "Preview invite page" behind the first save.** Right now a
+  brand-new draft (created the instant you click a type card, before
+  any details are filled in) already has a working Preview link, which
+  just shows an empty/placeholder invite. Should only become clickable
+  after the event has been saved at least once — e.g. disable the link
+  (or hide it) while `event.updatedAt === event.createdAt`, since that
+  equality only holds pre-first-save. Small UI-only change in
+  `views/admin-event-edit.ejs` + `routes/admin.js`.
