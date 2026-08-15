@@ -1,0 +1,32 @@
+<% if (typeof error !== 'undefined' && error) { %>
+  <p class="error-note"><%= error %></p>
+<% } %>
+
+<form class="rsvp-form" method="POST" action="/rsvp">
+  <div class="field">
+    <label for="name">Your name</label>
+    <input type="text" id="name" name="name" placeholder="Full name" required maxlength="120">
+  </div>
+
+  <div class="field">
+    <label>Will you be attending?</label>
+    <div class="attending-choice">
+      <input type="radio" id="yes" name="attending" value="yes" checked>
+      <label for="yes">🎉 Joyfully accept</label>
+      <input type="radio" id="no" name="attending" value="no">
+      <label for="no">Can't make it</label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="guests">Number of guests (including you)</label>
+    <input type="number" id="guests" name="guests" min="0" max="20" value="1">
+  </div>
+
+  <div class="field">
+    <label for="note">A note for the hosts (optional)</label>
+    <textarea id="note" name="note" rows="2" maxlength="500" placeholder="Dietary notes, a message, anything else..."></textarea>
+  </div>
+
+  <button type="submit" class="submit-btn">Send RSVP</button>
+</form>

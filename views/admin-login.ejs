@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin login</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/theme-elegant.css">
+</head>
+<body>
+  <div class="page">
+    <div class="card">
+      <div class="card-body">
+        <p class="eyebrow">Admin</p>
+        <h1 class="title">Sign in</h1>
+        <% if (error) { %>
+          <p class="error-note"><%= error %></p>
+        <% } %>
+        <form class="rsvp-form" method="POST" action="/admin/login">
+          <div class="field">
+            <label for="password">Admin password</label>
+            <input type="password" id="password" name="password" required autofocus>
+          </div>
+          <button type="submit" class="submit-btn">Sign in</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+:root {
+  --bg: linear-gradient(180deg, #FFF3DC 0%, #FFF8EC 40%);
+  --card-bg: #FFFDF8;
+  --ink: #3A1414;
+  --ink-soft: #6B4A3A;
+  --ink-faint: #B9A98F;
+  --accent: #B5461F;
+  --accent-dark: #7A2E15;
+  --accent-soft: rgba(181, 70, 31, 0.16);
+  --on-accent: #FFF8EC;
+  --details-bg: #FBE9CE;
+  --field-border: #E3CBA0;
+  --field-bg: #FFFCF6;
+}
+
+.card::before {
+  content: "";
+  display: block;
+  height: 22px;
+  background-image:
+    radial-gradient(circle at 10px 4px, #E8A33D 0 6px, transparent 7px),
+    radial-gradient(circle at 30px 4px, #B5461F 0 6px, transparent 7px),
+    radial-gradient(circle at 50px 4px, #2F6F5E 0 6px, transparent 7px),
+    radial-gradient(circle at 70px 4px, #E8A33D 0 6px, transparent 7px),
+    radial-gradient(circle at 90px 4px, #B5461F 0 6px, transparent 7px);
+  background-size: 100px 22px;
+  background-repeat: repeat-x;
+  background-color: #7A2E15;
+}
+
+.eyebrow { color: var(--accent-dark); }
+
+.attending-choice input:checked + label {
+  background: var(--accent);
+}

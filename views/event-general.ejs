@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= config.title || "You're Invited" %></title>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/theme-<%= config.theme %>.css">
+</head>
+<body>
+  <div class="page">
+    <div class="card">
+      <div class="card-body">
+        <p class="eyebrow">You're Invited</p>
+        <h1 class="title"><%= config.title %></h1>
+        <% if (config.hostedBy) { %>
+          <p class="subtitle">Hosted by <%= config.hostedBy %></p>
+        <% } %>
+
+        <% if (config.message) { %>
+          <p class="message"><%= config.message %></p>
+        <% } %>
+
+        <div class="details">
+          <% if (config.date) { %>
+            <div class="detail-row"><span class="label">Date</span><span class="value"><%= config.date %></span></div>
+          <% } %>
+          <% if (config.time) { %>
+            <div class="detail-row"><span class="label">Time</span><span class="value"><%= config.time %></span></div>
+          <% } %>
+          <% if (config.location) { %>
+            <div class="detail-row"><span class="label">Where</span><span class="value"><%= config.location %></span></div>
+          <% } %>
+          <% if (config.rsvpBy) { %>
+            <div class="detail-row"><span class="label">RSVP by</span><span class="value"><%= config.rsvpBy %></span></div>
+          <% } %>
+        </div>
+
+        <%- include('partials/rsvp-form', { error: typeof error !== 'undefined' ? error : null }) %>
+      </div>
+    </div>
+    <p class="footnote">Made with care for our family &amp; friends.</p>
+  </div>
+</body>
+</html>

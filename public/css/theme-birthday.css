@@ -1,0 +1,40 @@
+:root {
+  --bg: radial-gradient(circle at 15% 0%, #FFE3EC 0%, transparent 45%),
+        radial-gradient(circle at 85% 10%, #E3D6F7 0%, transparent 45%),
+        #FFFBF3;
+  --card-bg: #FFFFFF;
+  --ink: #3B2A3F;
+  --ink-soft: #7A6580;
+  --ink-faint: #C6B6CC;
+  --accent: #E8709A;
+  --accent-dark: #C24E79;
+  --accent-soft: rgba(232, 112, 154, 0.16);
+  --on-accent: #FFFFFF;
+  --details-bg: #FBEFF4;
+  --field-border: #EAD9E4;
+  --field-bg: #FFFFFF;
+}
+
+.card::before {
+  content: "";
+  display: block;
+  height: 18px;
+  background-image:
+    radial-gradient(circle 3px, #F2A65A 96%, transparent 100%),
+    radial-gradient(circle 3px, #C9B6E4 96%, transparent 100%),
+    radial-gradient(circle 3px, #E8709A 96%, transparent 100%),
+    radial-gradient(circle 3px, #6FC6B4 96%, transparent 100%);
+  background-position: 8px 6px, 26px 12px, 44px 4px, 62px 10px;
+  background-size: 80px 18px;
+  background-repeat: repeat-x;
+  background-color: #FFE3EC;
+}
+
+.photo-frame {
+  border-style: dashed;
+  border-width: 3px;
+  border-color: var(--accent);
+  box-shadow: 0 12px 30px -10px rgba(232, 112, 154, 0.45);
+}
+
+.eyebrow { color: var(--accent-dark); }

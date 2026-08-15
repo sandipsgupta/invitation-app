@@ -1,0 +1,36 @@
+:root {
+  --bg: #F4F2EE;
+  --card-bg: #FFFFFF;
+  --ink: #1F2937;
+  --ink-soft: #5B6472;
+  --ink-faint: #A9A398;
+  --accent: #A9803F;
+  --accent-dark: #1F2937;
+  --accent-soft: rgba(169, 128, 63, 0.15);
+  --on-accent: #FFFFFF;
+  --details-bg: #F7F5F1;
+  --field-border: #DAD5CB;
+  --field-bg: #FFFFFF;
+}
+
+.card::before {
+  content: "";
+  display: block;
+  height: 6px;
+  background: linear-gradient(90deg, transparent, #A9803F 15%, #A9803F 85%, transparent);
+}
+
+.eyebrow {
+  letter-spacing: 0.22em;
+}
+
+.title {
+  letter-spacing: -0.01em;
+}
+
+.photo-frame {
+  border-radius: 8px;
+  width: 140px;
+  height: 140px;
+  box-shadow: 0 0 0 1px var(--accent), 0 12px 30px -10px rgba(31, 41, 55, 0.35);
+}
