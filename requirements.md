@@ -28,8 +28,14 @@ for scope. Update it as scope changes — don't let it drift from the code.
 
 - Other event types (Anniversary, Pooja, Graduation Party, Weekend Party
   Host) — dashboard shows them as disabled "Coming soon" cards. **Phase 2.**
-- SQLite (or any real database). Storage stays as JSON files under
-  `DATA_DIR`, restructured into `events.json` + `invites.json`. **Phase 3.**
+- A database. **Decided, not just deferred:** flat JSON files on a Railway
+  Volume stay permanently, not just for MVP. A database (SQLite included —
+  it's still a single file, needing the same Volume) adds nothing at this
+  data scale (low hundreds of records/year) and a hosted DB service would
+  actively cost more, since it runs as an always-on billed service instead
+  of a few KB on an already-included Volume. Revisit only if there's a
+  concrete scale or concurrency problem the file storage is actually
+  hitting — not preemptively.
 - Multi-admin / per-user accounts. One shared admin password, but the
   auth code is isolated in `lib/auth.js` so this is a contained change
   later, not a rewrite. **Phase 3.**
@@ -117,6 +123,6 @@ Weekend Party Host): each is mostly the same event/invite machinery with
 a different form + theme; the general-event view already in the repo is
 a starting point.
 
-**Phase 3** — SQLite persistence (replacing the JSON files 1:1 in
-`lib/store.js` so routes don't change), and real per-user admin accounts
-(extending `lib/auth.js`) if the app is opened up to other households.
+**Phase 3** — Real per-user admin accounts (extending `lib/auth.js`) if
+the app is opened up to other households. Storage is *not* on this
+roadmap — see the database note above.

@@ -21,13 +21,15 @@ the same birthday).
    you need two concurrent invite forms for one occasion (school friends
    vs. family friends), so the data model is a list of events, each with
    its own invite links and RSVPs. History is kept rather than wiped.
-3. **No database.** Two flat JSON files (`data/events.json`,
-   `data/invites.json`) are the entire persistence layer, restructured
-   from the original single-config design but still just files — a
-   family RSVP page gets tens of responses a year, not thousands.
-   SQLite is an intentional phase-3 item once the JSON layer's shape
-   (in `lib/store.js`) is proven; nothing above that layer needs to
-   change when it happens.
+3. **No database — permanently, not just for now.** Two flat JSON files
+   (`data/events.json`, `data/invites.json`) are the entire persistence
+   layer. A family RSVP page gets tens of responses a year, not
+   thousands, so a database (even SQLite, which is still just a single
+   file needing the same Railway Volume) would add query code for no
+   benefit. A hosted DB service would cost *more* too — it runs as an
+   always-on billed service, unlike a few KB on the Volume the app
+   already needs. `lib/store.js` keeps this swappable if that math ever
+   changes, but it isn't a planned migration.
 4. **Real photo upload, but no new infrastructure.** Uploaded photos are
    stored under `DATA_DIR/uploads/<eventId>/`, the same directory the
    JSON files already live in — so the one Railway Volume the app
@@ -69,8 +71,8 @@ Browser ──GET/POST──▶ Express (server.js)
 - **`lib/store.js`** — the only code that touches the JSON files. Every
   route goes through `listEvents`/`getEvent`/`createInvite`/`upsertRsvp`
   etc. Writes go through temp-file + rename so a crash mid-write can't
-  corrupt a file. This boundary is what makes a future SQLite migration
-  a one-file change.
+  corrupt a file. This boundary would make swapping storage a one-file
+  change if it were ever needed — it isn't planned, see principle #3.
 - **`lib/auth.js`** — admin session auth, isolated per principle #6.
 - **`lib/csrf.js`** — signed double-submit-cookie CSRF protection
   (`csrf-csrf`), applied to every state-changing route — admin *and* the
