@@ -41,9 +41,20 @@
           <p class="message"><%= event.message %></p>
         <% } %>
 
+        <%
+          // event.date is stored as yyyy-mm-dd (from the admin date picker).
+          // Fall back to the raw value for any older, free-text records.
+          let formattedDate = event.date;
+          if (event.date) {
+            const parsedDate = new Date(`${event.date}T00:00:00`);
+            if (!isNaN(parsedDate.getTime())) {
+              formattedDate = parsedDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            }
+          }
+        %>
         <div class="details">
           <% if (event.date) { %>
-            <div class="detail-row"><span class="label">Date</span><span class="value"><%= event.date %></span></div>
+            <div class="detail-row"><span class="label">Date</span><span class="value"><%= formattedDate %></span></div>
           <% } %>
           <% if (event.time) { %>
             <div class="detail-row"><span class="label">Time</span><span class="value"><%= event.time %></span></div>

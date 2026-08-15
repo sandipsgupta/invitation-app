@@ -23,6 +23,11 @@ for scope. Update it as scope changes — don't let it drift from the code.
 10. Support **more than one concurrent event** — e.g. the same birthday
     sent as two separate invite forms (school friends vs. family
     friends) is two event records, each with its own links and caps.
+11. Auto-purge: an event (config, photo, invites, RSVPs) is permanently
+    deleted 7 days after its date, with no manual step required. Keeps
+    storage small automatically instead of relying on the host to
+    remember to clean up — this is *the* retention policy, there's no
+    separate archive/soft-delete.
 
 ## Non-goals for MVP (explicitly deferred)
 
@@ -58,6 +63,9 @@ for scope. Update it as scope changes — don't let it drift from the code.
   createdAt, updatedAt
 }
 ```
+`date` is `yyyy-mm-dd` (native `<input type="date">` in the admin editor) —
+it's the trigger for auto-purge, so it has to be machine-parseable rather
+than free text. Displayed to guests as e.g. "Saturday, September 19, 2026".
 
 `data/invites.json` — one row per family; RSVP is embedded and **upserted**,
 not appended, since each invite has exactly one current RSVP:
@@ -95,6 +103,18 @@ not appended, since each invite has exactly one current RSVP:
   past `maxFamilies`.
 - `POST /admin/events/:id/invites/:inviteId/delete` — revoke a link.
 - `GET /admin/events/:id/export.csv` — CSV of that event's RSVPs.
+
+## Retention / auto-purge
+
+`store.purgeExpiredEvents()` (`lib/store.js`) deletes any event whose
+`date` is more than 7 days in the past — config, photo, invites, and
+RSVPs all go together via the same `deleteEvent()` path the admin
+"Delete event" button uses, so there's one cleanup routine, not two.
+`server.js` runs it once at boot and then every 24 hours via
+`setInterval`, entirely inside the existing app process — no separate
+cron service, no added Railway cost. Events with no date, or a date
+that doesn't parse (leftover free-text data from before the date
+picker), are left alone rather than guessed at.
 
 ## Security checklist
 

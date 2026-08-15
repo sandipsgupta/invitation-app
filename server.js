@@ -95,7 +95,6 @@ app.use(
     store,
     auth,
     upload,
-    uploadsRoot: uploadsRootFor(DATA_DIR),
     csrf,
     backgrounds: BACKGROUNDS,
     relations: RELATIONS,
@@ -118,7 +117,23 @@ app.use((err, req, res, next) => {
   res.status(500).render('error', { message: 'Something went wrong. Please try again.' });
 });
 
+// Auto-delete an event (and its invites/RSVPs/photo) 7 days after its
+// date has passed — runs in-process, no separate cron service needed.
+function runPurge() {
+  try {
+    const purgedIds = store.purgeExpiredEvents();
+    if (purgedIds.length) {
+      console.log(`Purged ${purgedIds.length} event(s) past their retention window: ${purgedIds.join(', ')}`);
+    }
+  } catch (err) {
+    console.error('Purge check failed:', err);
+  }
+}
+
 store.ensureFiles();
+runPurge();
+setInterval(runPurge, 24 * 60 * 60 * 1000);
+
 app.listen(PORT, () => {
   console.log(`Family RSVP app running on port ${PORT}`);
 });

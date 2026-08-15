@@ -1,6 +1,4 @@
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
 
 const EVENT_TYPE_CARDS = [
   { key: 'birthday', label: 'Birthday', emoji: '🎂', enabled: true },
@@ -26,7 +24,7 @@ function inviteStats(invites) {
   return { yesCount, noCount, guestTotal };
 }
 
-function makeAdminRouter({ store, auth, upload, uploadsRoot, csrf, backgrounds, relations, loginLimiter }) {
+function makeAdminRouter({ store, auth, upload, csrf, backgrounds, relations, loginLimiter }) {
   const router = express.Router();
   const { requireAdmin } = auth;
   const { csrfProtection } = csrf;
@@ -154,8 +152,7 @@ function makeAdminRouter({ store, auth, upload, uploadsRoot, csrf, backgrounds, 
   });
 
   router.post('/admin/events/:id/delete', requireAdmin, csrfProtection, (req, res) => {
-    store.deleteEvent(req.params.id);
-    fs.rm(path.join(uploadsRoot, req.params.id), { recursive: true, force: true }, () => {});
+    store.deleteEvent(req.params.id); // also removes the event's uploaded photo
     res.redirect('/admin/dashboard?saved=1');
   });
 

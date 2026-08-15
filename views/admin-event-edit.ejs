@@ -73,7 +73,7 @@
         <div class="admin-grid">
           <div>
             <label for="date">Date</label>
-            <input type="text" id="date" name="date" value="<%= event.date %>" placeholder="e.g. Sept 12, 2026">
+            <input type="date" id="date" name="date" value="<%= event.date %>">
           </div>
           <div>
             <label for="time">Time</label>
@@ -86,6 +86,9 @@
           <div>
             <label for="rsvpBy">RSVP by (optional)</label>
             <input type="text" id="rsvpBy" name="rsvpBy" value="<%= event.rsvpBy %>" placeholder="e.g. Sept 5, 2026">
+          </div>
+          <div class="field-full">
+            <p style="font-size:12px; color:#A99884; margin:-6px 0 14px;">This event (photo, invites, and RSVPs) is automatically deleted 7 days after the date above. Export a CSV before then if you want to keep the responses.</p>
           </div>
         </div>
 
