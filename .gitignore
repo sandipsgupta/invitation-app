@@ -1,2 +1,8 @@
 node_modules/
 .env
+
+# Runtime data: event details, RSVPs, and uploaded photos. Real family
+# data shouldn't land in git history; on Railway this lives on the
+# mounted Volume instead.
+data/*.json
+data/uploads/

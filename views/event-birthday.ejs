@@ -3,48 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= config.personName ? config.personName + "'s Birthday" : "You're Invited" %></title>
+  <title><%= event.personName ? event.personName + "'s Birthday" : "You're Invited" %></title>
   <link rel="stylesheet" href="/css/base.css">
-  <link rel="stylesheet" href="/css/theme-<%= config.theme %>.css">
+  <link rel="stylesheet" href="/css/backgrounds.css">
 </head>
-<body>
+<body class="bg-<%= event.background %>">
   <div class="page">
     <div class="card">
       <div class="card-body">
         <p class="eyebrow">Birthday Celebration</p>
 
-        <% if (config.photoUrl) { %>
+        <% if (event.photoPath) { %>
           <div class="photo-wrap">
             <div class="photo-frame">
-              <img src="<%= config.photoUrl %>" alt="<%= config.personName %>" onerror="this.closest('.photo-wrap').style.display='none'">
+              <img src="<%= event.photoPath %>" alt="<%= event.personName %>">
             </div>
           </div>
         <% } %>
 
         <h1 class="title">
-          <%= config.title || (config.personName ? config.personName + "'s Birthday" : "It's a Birthday!") %>
+          <%= event.title || (event.personName ? event.personName + "'s Birthday" : "It's a Birthday!") %>
         </h1>
 
-        <% if (config.message) { %>
-          <p class="message"><%= config.message %></p>
+        <% if (saved) { %>
+          <p class="saved-banner" style="text-align:center;">Thanks — your RSVP is saved. Revisit this link anytime to update it.</p>
+        <% } else if (invite.rsvp) { %>
+          <p class="saved-banner" style="text-align:center;">You already responded. Update your RSVP below anytime.</p>
+        <% } %>
+
+        <% if (event.message) { %>
+          <p class="message"><%= event.message %></p>
         <% } %>
 
         <div class="details">
-          <% if (config.date) { %>
-            <div class="detail-row"><span class="label">Date</span><span class="value"><%= config.date %></span></div>
+          <% if (event.date) { %>
+            <div class="detail-row"><span class="label">Date</span><span class="value"><%= event.date %></span></div>
           <% } %>
-          <% if (config.time) { %>
-            <div class="detail-row"><span class="label">Time</span><span class="value"><%= config.time %></span></div>
+          <% if (event.time) { %>
+            <div class="detail-row"><span class="label">Time</span><span class="value"><%= event.time %></span></div>
           <% } %>
-          <% if (config.location) { %>
-            <div class="detail-row"><span class="label">Where</span><span class="value"><%= config.location %></span></div>
+          <% if (event.location) { %>
+            <div class="detail-row"><span class="label">Where</span><span class="value"><%= event.location %></span></div>
           <% } %>
-          <% if (config.rsvpBy) { %>
-            <div class="detail-row"><span class="label">RSVP by</span><span class="value"><%= config.rsvpBy %></span></div>
+          <% if (event.rsvpBy) { %>
+            <div class="detail-row"><span class="label">RSVP by</span><span class="value"><%= event.rsvpBy %></span></div>
           <% } %>
         </div>
 
-        <%- include('partials/rsvp-form', { error: typeof error !== 'undefined' ? error : null }) %>
+        <%- include('partials/rsvp-form', {
+          event,
+          invite,
+          csrfToken,
+          error: typeof error !== 'undefined' ? error : null,
+          formOverride: typeof formOverride !== 'undefined' ? formOverride : null
+        }) %>
       </div>
     </div>
     <p class="footnote">Can't wait to celebrate with you.</p>

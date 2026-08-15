@@ -3,13 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin — Event RSVP</title>
+  <title>Event admin</title>
   <link rel="stylesheet" href="/css/base.css">
-  <style>
-    body { background: #F4F2EE; display: block; padding: 32px 16px 64px; }
-  </style>
 </head>
-<body>
+<body style="background: #F4F2EE; display: block; padding: 32px 16px 64px;">
   <div class="admin-shell">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
       <h1 style="margin:0; font-size:24px;">Event admin</h1>
@@ -20,142 +17,51 @@
       <p class="saved-banner">Saved.</p>
     <% } %>
 
-    <% if (config.active) { %>
-      <p class="link-active">Live page: <strong>/</strong> — share this app's URL with guests.</p>
-    <% } %>
-
     <div class="admin-card">
-      <h2 style="margin-top:0;">This year's event</h2>
-      <form method="POST" action="/admin/config">
-        <div class="type-toggle">
-          <input type="radio" id="type-general" name="type" value="general" <%= config.type === 'general' ? 'checked' : '' %> onclick="toggleType('general')">
-          <label for="type-general">General Event (Pooja / Function / Party)</label>
-          <input type="radio" id="type-birthday" name="type" value="birthday" <%= config.type === 'birthday' ? 'checked' : '' %> onclick="toggleType('birthday')">
-          <label for="type-birthday">Birthday</label>
-        </div>
-
-        <label for="theme">Background style</label>
-        <select id="theme" name="theme">
-          <% themes.forEach(function(t) { %>
-            <option value="<%= t %>" <%= config.theme === t ? 'selected' : '' %>>
-              <%= t === 'festive' ? 'Festive (marigold / maroon)' : t === 'birthday' ? 'Birthday pastel' : 'Elegant neutral' %>
-            </option>
-          <% }) %>
-        </select>
-
-        <div id="fields-general" class="admin-grid" style="display: <%= config.type === 'general' ? 'grid' : 'none' %>;">
-          <div class="field-full">
-            <label for="title">Event title</label>
-            <input type="text" id="title" name="title" value="<%= config.title %>" placeholder="e.g. Ganesh Chaturthi Pooja">
-          </div>
-          <div class="field-full">
-            <label for="hostedBy">Hosted by (optional)</label>
-            <input type="text" id="hostedBy" name="hostedBy" value="<%= config.hostedBy %>" placeholder="e.g. The Sharma Family">
-          </div>
-        </div>
-
-        <div id="fields-birthday" class="admin-grid" style="display: <%= config.type === 'birthday' ? 'grid' : 'none' %>;">
-          <div>
-            <label for="personName">Whose birthday</label>
-            <input type="text" id="personName" name="personName" value="<%= config.personName %>" placeholder="Name">
-          </div>
-          <div>
-            <label for="personRelation">Relation</label>
-            <select id="personRelation" name="personRelation">
-              <% relations.forEach(function(r) { %>
-                <option value="<%= r %>" <%= config.personRelation === r ? 'selected' : '' %>><%= r %></option>
-              <% }) %>
-            </select>
-          </div>
-          <div class="field-full">
-            <label for="photoUrl">Photo URL (optional — paste a link to an image)</label>
-            <input type="url" id="photoUrl" name="photoUrl" value="<%= config.photoUrl %>" placeholder="https://...">
-          </div>
-          <div class="field-full">
-            <label for="title2">Custom title (optional — leave blank for "[Name]'s Birthday")</label>
-            <input type="text" id="title2" name="birthdayTitle" value="<%= config.type === 'birthday' ? config.title : '' %>" placeholder="e.g. Aanya Turns 8!">
-          </div>
-        </div>
-
-        <div class="admin-grid">
-          <div>
-            <label for="date">Date</label>
-            <input type="text" id="date" name="date" value="<%= config.date %>" placeholder="e.g. Sept 12, 2026">
-          </div>
-          <div>
-            <label for="time">Time</label>
-            <input type="text" id="time" name="time" value="<%= config.time %>" placeholder="e.g. 4:00 PM">
-          </div>
-          <div class="field-full">
-            <label for="location">Location</label>
-            <input type="text" id="location" name="location" value="<%= config.location %>" placeholder="Address or venue name">
-          </div>
-          <div>
-            <label for="rsvpBy">RSVP by (optional)</label>
-            <input type="text" id="rsvpBy" name="rsvpBy" value="<%= config.rsvpBy %>" placeholder="e.g. Sept 5, 2026">
-          </div>
-        </div>
-
-        <label for="message">Custom message</label>
-        <textarea id="message" name="message" rows="3" placeholder="A short note guests will see on the invite"><%= config.message %></textarea>
-
-        <label style="display:flex; align-items:center; gap:8px; font-weight:600; margin-bottom:16px;">
-          <input type="checkbox" name="active" style="width:auto;" <%= config.active ? 'checked' : '' %>>
-          Page is live (guests can see it and RSVP)
-        </label>
-
-        <button type="submit" class="btn btn-primary">Save event</button>
-      </form>
+      <h2 style="margin-top:0;">Create a new event</h2>
+      <div class="type-cards">
+        <% eventTypeCards.forEach(function (card) { %>
+          <% if (card.enabled) { %>
+            <form method="POST" action="/admin/events">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <input type="hidden" name="type" value="<%= card.key %>">
+              <button type="submit" class="type-card">
+                <span class="emoji"><%= card.emoji %></span>
+                <span class="label"><%= card.label %></span>
+              </button>
+            </form>
+          <% } else { %>
+            <div class="type-card disabled">
+              <span class="emoji"><%= card.emoji %></span>
+              <span class="label"><%= card.label %></span>
+              <span class="soon">Coming soon</span>
+            </div>
+          <% } %>
+        <% }) %>
+      </div>
     </div>
 
     <div class="admin-card">
-      <h2 style="margin-top:0;">Responses</h2>
-      <div class="stat-row">
-        <div class="stat"><div class="num"><%= yesCount %></div><div class="lbl">Attending</div></div>
-        <div class="stat"><div class="num"><%= noCount %></div><div class="lbl">Not attending</div></div>
-        <div class="stat"><div class="num"><%= guestTotal %></div><div class="lbl">Total guests</div></div>
-      </div>
-
-      <% if (rsvps.length === 0) { %>
-        <p style="color:#746E60; font-size:14px;">No responses yet.</p>
+      <h2 style="margin-top:0;">Your events</h2>
+      <% if (events.length === 0) { %>
+        <p style="color:#746E60; font-size:14px;">No events yet — create one above.</p>
       <% } else { %>
-        <div style="overflow-x:auto;">
-          <table class="rsvp-table">
-            <thead>
-              <tr><th>Name</th><th>Attending</th><th>Guests</th><th>Note</th><th>When</th></tr>
-            </thead>
-            <tbody>
-              <% rsvps.forEach(function(r) { %>
-                <tr>
-                  <td><%= r.name %></td>
-                  <td><%= r.attending === 'yes' ? 'Yes' : 'No' %></td>
-                  <td><%= r.guests %></td>
-                  <td><%= r.note %></td>
-                  <td><%= new Date(r.submittedAt).toLocaleDateString() %></td>
-                </tr>
-              <% }) %>
-            </tbody>
-          </table>
+        <div class="event-list">
+          <% events.forEach(function (row) { %>
+            <a class="event-row" href="/admin/events/<%= row.event.id %>/edit">
+              <span>
+                <strong><%= row.event.personName ? row.event.personName + "'s Birthday" : (row.event.title || 'Untitled birthday') %></strong>
+                <span class="badge <%= row.event.status === 'live' ? 'badge-live' : 'badge-draft' %>"><%= row.event.status %></span>
+              </span>
+              <span class="meta">
+                <%= row.inviteCount %>/<%= row.event.maxFamilies %> families invited &middot;
+                <%= row.yesCount %> yes &middot; <%= row.noCount %> no &middot; <%= row.guestTotal %> guests
+              </span>
+            </a>
+          <% }) %>
         </div>
       <% } %>
-
-      <div style="margin-top:18px; display:flex; gap:10px; flex-wrap:wrap;">
-        <a class="btn btn-secondary" href="/admin/export.csv">Export CSV</a>
-        <form method="POST" action="/admin/reset-rsvps" onsubmit="return confirm('Clear all responses? Export a CSV first if you want to keep them.');">
-          <button type="submit" class="btn btn-secondary">Clear responses</button>
-        </form>
-        <form method="POST" action="/admin/new-event" onsubmit="return confirm('Start a brand new event? This clears the current event details and all responses. Export a CSV first if you want to keep them.');">
-          <button type="submit" class="btn btn-danger">Start next year's event</button>
-        </form>
-      </div>
     </div>
   </div>
-
-  <script>
-    function toggleType(type) {
-      document.getElementById('fields-general').style.display = type === 'general' ? 'grid' : 'none';
-      document.getElementById('fields-birthday').style.display = type === 'birthday' ? 'grid' : 'none';
-    }
-  </script>
 </body>
 </html>

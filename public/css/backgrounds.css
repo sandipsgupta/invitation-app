@@ -1,0 +1,146 @@
+/* Curated, built-in birthday backgrounds — pure CSS (gradients/patterns),
+   no external images or API keys. Each block redefines the same custom
+   properties base.css already consumes, so picking a design is just
+   swapping a body class. */
+
+body.bg-confetti {
+  --bg: radial-gradient(circle at 15% 0%, #FFE3EC 0%, transparent 45%),
+        radial-gradient(circle at 85% 10%, #E3D6F7 0%, transparent 45%),
+        #FFFBF3;
+  --card-bg: #FFFFFF;
+  --ink: #3B2A3F;
+  --ink-soft: #7A6580;
+  --ink-faint: #C6B6CC;
+  --accent: #E8709A;
+  --accent-dark: #C24E79;
+  --accent-soft: rgba(232, 112, 154, 0.16);
+  --on-accent: #FFFFFF;
+  --details-bg: #FBEFF4;
+  --field-border: #EAD9E4;
+  --field-bg: #FFFFFF;
+}
+body.bg-confetti .card::before {
+  content: "";
+  display: block;
+  height: 18px;
+  background-image:
+    radial-gradient(circle 3px, #F2A65A 96%, transparent 100%),
+    radial-gradient(circle 3px, #C9B6E4 96%, transparent 100%),
+    radial-gradient(circle 3px, #E8709A 96%, transparent 100%),
+    radial-gradient(circle 3px, #6FC6B4 96%, transparent 100%);
+  background-position: 8px 6px, 26px 12px, 44px 4px, 62px 10px;
+  background-size: 80px 18px;
+  background-repeat: repeat-x;
+  background-color: #FFE3EC;
+}
+
+body.bg-pastel-balloons {
+  --bg: linear-gradient(160deg, #E9F4FF 0%, #FFF7EC 55%, #FDEFFB 100%);
+  --card-bg: #FFFFFF;
+  --ink: #2E3A4F;
+  --ink-soft: #667289;
+  --ink-faint: #B9C2D4;
+  --accent: #6FA3E0;
+  --accent-dark: #4A7EC2;
+  --accent-soft: rgba(111, 163, 224, 0.16);
+  --on-accent: #FFFFFF;
+  --details-bg: #EEF5FC;
+  --field-border: #D9E4F2;
+  --field-bg: #FFFFFF;
+}
+body.bg-pastel-balloons .card::before {
+  content: "";
+  display: block;
+  height: 26px;
+  background-image:
+    radial-gradient(circle at 12px 26px, #6FA3E0 0 9px, transparent 10px),
+    radial-gradient(circle at 34px 26px, #F2A65A 0 9px, transparent 10px),
+    radial-gradient(circle at 56px 26px, #E8709A 0 9px, transparent 10px),
+    radial-gradient(circle at 78px 26px, #6FC6B4 0 9px, transparent 10px);
+  background-size: 90px 26px;
+  background-repeat: repeat-x;
+  background-color: #F5FAFF;
+}
+
+body.bg-golden-elegance {
+  --bg: radial-gradient(circle at 50% 0%, #3A3428 0%, #1C1913 70%);
+  --card-bg: #FFFDF7;
+  --ink: #2A241A;
+  --ink-soft: #6B5F48;
+  --ink-faint: #C9BFA6;
+  --accent: #B8912F;
+  --accent-dark: #8A6C22;
+  --accent-soft: rgba(184, 145, 47, 0.16);
+  --on-accent: #FFFDF7;
+  --details-bg: #F7F0DD;
+  --field-border: #E5D9B8;
+  --field-bg: #FFFEFA;
+}
+body.bg-golden-elegance .card::before {
+  content: "";
+  display: block;
+  height: 6px;
+  background: linear-gradient(90deg, #B8912F, #E8CE84, #B8912F);
+}
+
+body.bg-tropical-fiesta {
+  --bg: linear-gradient(160deg, #0F5E56 0%, #0B3B39 60%, #082C2A 100%);
+  --card-bg: #FFFEFB;
+  --ink: #1E3A2F;
+  --ink-soft: #4F6E5E;
+  --ink-faint: #B7CFC2;
+  --accent: #E8944A;
+  --accent-dark: #C3762F;
+  --accent-soft: rgba(232, 148, 74, 0.18);
+  --on-accent: #FFFEFB;
+  --details-bg: #EAF5EE;
+  --field-border: #D6E8DC;
+  --field-bg: #FFFFFF;
+}
+body.bg-tropical-fiesta .card::before {
+  content: "";
+  display: block;
+  height: 20px;
+  background-image:
+    radial-gradient(circle at 10px 20px, #E8944A 0 8px, transparent 9px),
+    radial-gradient(circle at 30px 20px, #2F9E7A 0 8px, transparent 9px),
+    radial-gradient(circle at 50px 20px, #F2C94C 0 8px, transparent 9px),
+    radial-gradient(circle at 70px 20px, #E8944A 0 8px, transparent 9px),
+    radial-gradient(circle at 90px 20px, #2F9E7A 0 8px, transparent 9px);
+  background-size: 100px 20px;
+  background-repeat: repeat-x;
+  background-color: #0F5E56;
+}
+
+body.bg-starry-night {
+  --bg: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.6) 0 1px, transparent 2px),
+        radial-gradient(circle at 60% 10%, rgba(255,255,255,0.5) 0 1px, transparent 2px),
+        radial-gradient(circle at 80% 35%, rgba(255,255,255,0.5) 0 1px, transparent 2px),
+        radial-gradient(circle at 35% 55%, rgba(255,255,255,0.4) 0 1px, transparent 2px),
+        radial-gradient(circle at 90% 75%, rgba(255,255,255,0.5) 0 1px, transparent 2px),
+        linear-gradient(180deg, #171736 0%, #2B2757 60%, #3A2E63 100%);
+  --card-bg: #FFFFFF;
+  --ink: #262042;
+  --ink-soft: #605A82;
+  --ink-faint: #C2BEDA;
+  --accent: #8C6FE0;
+  --accent-dark: #6C4FC2;
+  --accent-soft: rgba(140, 111, 224, 0.16);
+  --on-accent: #FFFFFF;
+  --details-bg: #F2EFFB;
+  --field-border: #DCD5F2;
+  --field-bg: #FFFFFF;
+}
+body.bg-starry-night .card::before {
+  content: "";
+  display: block;
+  height: 6px;
+  background: linear-gradient(90deg, #8C6FE0, #6C4FC2, #8C6FE0);
+}
+
+/* Swatch previews used by the admin background picker */
+.swatch.swatch-confetti { background: linear-gradient(135deg, #FFE3EC, #E3D6F7); }
+.swatch.swatch-pastel-balloons { background: linear-gradient(135deg, #E9F4FF, #FDEFFB); }
+.swatch.swatch-golden-elegance { background: linear-gradient(135deg, #3A3428, #B8912F); }
+.swatch.swatch-tropical-fiesta { background: linear-gradient(135deg, #0F5E56, #E8944A); }
+.swatch.swatch-starry-night { background: linear-gradient(135deg, #171736, #8C6FE0); }

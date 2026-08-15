@@ -1,11 +1,32 @@
 # Family RSVP
 
-A tiny, reusable invitation + RSVP page for family events. Two page types, three background styles, one admin screen to reconfigure it every year.
+A small self-hosted invite + RSVP system for family events. Create an event
+from the admin dashboard, generate a private, unguessable invite link per
+family, and share each link individually. Guests RSVP with no login;
+revisiting their own link later shows their RSVP, editable.
 
-- **General Event** — poojas, functions, parties. Title, host, date/time/location, message.
-- **Birthday** — pick the person (Daughter / Son / Me / Family Member), optional photo, custom message.
-- **Themes** — Festive (marigold/maroon), Birthday pastel, Elegant neutral.
-- **Storage** — everything (event details + RSVP responses) lives in two small JSON files on disk. No database service, no third-party account. You export a CSV and reset before next year's event.
+- **Multiple events at once** — e.g. the same birthday sent as two separate
+  invite forms (school friends vs. family friends) is just two events.
+- **Per-family secure invite links** — no guest login, no shared public
+  link. Each link is a long random token; only someone who has it can view
+  or RSVP to that event. Capped at a configurable number of families per
+  event (default 50), each RSVP capped at a configurable guest range
+  (default 1–10).
+- **Edit-in-place RSVPs** — a guest who reopens their link sees their
+  existing response, pre-filled and editable, not a duplicate submission.
+- **Photo upload + curated backgrounds** — upload a real photo (JPEG/PNG/
+  WEBP, 5MB max) and pick from a handful of built-in background designs,
+  no external services or API keys involved.
+- **Storage** — event details and RSVPs live in JSON files on disk
+  (`data/events.json`, `data/invites.json`), uploaded photos in
+  `data/uploads/`. No database service, no third-party account.
+- See [requirements.md](requirements.md) for the full data model, routes,
+  and security checklist, and [SOLUTION.md](SOLUTION.md) for the original
+  design rationale.
+
+> Currently only the **Birthday** event type is enabled end-to-end.
+> Anniversary / Pooja / Graduation Party / Weekend Party show as
+> "Coming soon" on the dashboard — phase 2.
 
 ## 1. Run it locally first
 
@@ -16,7 +37,15 @@ cp .env.example .env
 npm start
 ```
 
-Visit `http://localhost:3000/admin`, log in, fill in this year's event, check "Page is live," save. Then visit `http://localhost:3000/` to see the guest-facing page and try an RSVP.
+1. Visit `http://localhost:3000/admin`, log in.
+2. Click the **Birthday** card to create a new event.
+3. Fill in the details, upload a photo, pick a background, set the guest
+   range / family cap, check "Page is live," save.
+4. In the **Invite links** panel, click **"+ Generate invite link"** once
+   per family (optionally label it, e.g. "Verma family"). Copy each link.
+5. Open a generated link in a private/incognito window to try the guest
+   flow — submit an RSVP, then reopen the same link to see it pre-filled
+   and editable.
 
 ## 2. Deploy to Railway (same $5 Hobby subscription you already have)
 
@@ -33,19 +62,26 @@ You can add this as a **new project** in your existing Railway account — the H
    ```
 2. **In Railway:** New Project → Deploy from GitHub repo → pick this repo. Railway auto-detects Node.js and runs `npm install && npm start`.
 3. **Set environment variables** (Railway dashboard → your service → Variables):
-   - `ADMIN_PASSWORD` — your admin password
-   - `SESSION_SECRET` — any long random string
+   - `ADMIN_PASSWORD` — your admin password (not the local default — the app refuses to boot in production with default credentials)
+   - `SESSION_SECRET` — any long random string (same rule)
    - `DATA_DIR` — `/data` (see next step)
-4. **Add a Volume** so your config and RSVPs survive redeploys (Railway dashboard → your service → Volumes → New Volume). Mount it at `/data`. Without this, a redeploy wipes the JSON files since Railway's default filesystem is ephemeral.
-5. **Generate a domain** (Settings → Networking → Generate Domain) to get your public URL — that's the link you share with guests, and also where `/admin` lives (e.g. `https://your-app.up.railway.app/admin`).
+   - `NODE_ENV` — `production` (enables secure cookies, stricter defaults)
+4. **Add a Volume** so your events, invites, and uploaded photos survive redeploys (Railway dashboard → your service → Volumes → New Volume). Mount it at `/data`. Without this, a redeploy wipes everything since Railway's default filesystem is ephemeral.
+5. **Generate a domain** (Settings → Networking → Generate Domain) to get your public URL — invite links are built from this domain, and `/admin` lives here too (e.g. `https://your-app.up.railway.app/admin`).
 
-## 3. Each year
+## 3. Each year / each event
 
 1. Go to `/admin`, log in.
-2. Click **"Start next year's event"** — this clears last year's event details and responses (export a CSV first from the Responses section if you want to keep them).
-3. Fill in the new event, save, share the link.
+2. Create a new event from the dashboard (or reuse an existing draft).
+3. Fill it in, generate invite links, share them individually per family.
+4. Export a CSV from the event's page any time; **Delete event** removes
+   it and its invites/RSVPs entirely (irreversible).
 
 ## Notes
 
-- Photos: paste an image URL (e.g. a Google Photos/Drive share link set to "anyone with the link," or an Imgur link) rather than uploading a file — this keeps the app filesystem-free for photos too, so nothing depends on the ephemeral disk.
-- The admin password is the only access control — anyone with the link can view the invite and RSVP, which is normal for this kind of page. Don't share the `/admin` URL or password.
+- Access control is per-invite-link for guests (no login, no shared
+  public URL) and a single admin password for the host. Don't share the
+  `/admin` URL or password — anyone with it can see and edit all events.
+- Invite links themselves are the guest's access credential — treat them
+  like you would a private calendar invite. Anyone with a specific link
+  can view and RSVP for that family's slot.
