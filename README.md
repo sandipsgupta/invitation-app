@@ -51,16 +51,8 @@ npm start
 
 You can add this as a **new project** in your existing Railway account — the Hobby plan's $5 included usage is shared across every project on the account, not charged per project. A small app like this uses a sliver of that.
 
-1. **Push this folder to a GitHub repo** (Railway deploys from GitHub, or via the Railway CLI — GitHub is easiest).
-   ```bash
-   git init
-   git add .
-   git commit -m "Family RSVP app"
-   git branch -M main
-   git remote add origin <your-new-repo-url>
-   git push -u origin main
-   ```
-2. **In Railway:** New Project → Deploy from GitHub repo → pick this repo. Railway auto-detects Node.js and runs `npm install && npm start`.
+1. **Repo is already on GitHub**, with a `prod` branch cut for this — nothing to push from scratch, `prod` just needs to be brought up to date with `mvp1` before connecting Railway (ask for that merge when you're ready).
+2. **In Railway:** New Project → Deploy from GitHub repo → pick this repo → select the **`prod`** branch specifically (not the default branch). Railway auto-detects Node.js and runs `npm install && npm start`.
 3. **Set environment variables** (Railway dashboard → your service → Variables):
    - `ADMIN_PASSWORD` — your admin password (not the local default — the app refuses to boot in production with default credentials)
    - `SESSION_SECRET` — any long random string (same rule)
@@ -68,6 +60,7 @@ You can add this as a **new project** in your existing Railway account — the H
    - `NODE_ENV` — `production` (enables secure cookies, stricter defaults)
 4. **Add a Volume** so your events, invites, and uploaded photos survive redeploys (Railway dashboard → your service → Volumes → New Volume). Mount it at `/data`. Without this, a redeploy wipes everything since Railway's default filesystem is ephemeral.
 5. **Generate a domain** (Settings → Networking → Generate Domain) to get your public URL — invite links are built from this domain, and `/admin` lives here too (e.g. `https://your-app.up.railway.app/admin`).
+6. **Do a throwaway test run before the real event.** Log into the live `/admin`, create a test event, generate one invite link, and open it on an actual phone to check the mobile experience over a real network (not just localhost). Once you're happy with it, go to that test event's page and click **"Delete event"** — this permanently removes it (config, photo, invites, RSVPs) — before creating the real event you'll actually send to guests. Don't skip the delete step; a leftover test event would otherwise just sit there until auto-purge catches it 7 days after whatever date you gave it.
 
 ## 3. Each year / each event
 
