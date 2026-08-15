@@ -7,9 +7,9 @@
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/backgrounds.css">
 </head>
-<body class="bg-<%= event.background %>">
+<body class="bg-<%= event.background %>"<%- (typeof previewMode !== 'undefined' && previewMode) ? ' style="padding-top:56px;"' : '' %>>
   <% if (typeof previewMode !== 'undefined' && previewMode) { %>
-    <div style="position:sticky; top:0; z-index:10; background:#1F2937; color:#fff; text-align:center; padding:10px 16px; font-size:13px; font-weight:600;">
+    <div style="position:fixed; top:0; left:0; right:0; z-index:50; background:#1F2937; color:#fff; text-align:center; padding:10px 16px; font-size:13px; font-weight:600;">
       Preview mode — this is what guests will see. No invite link is involved.
       <a href="/admin/events/<%= event.id %>/edit" style="color:#fff; text-decoration:underline;">Back to editor</a>
     </div>
@@ -17,15 +17,15 @@
   <div class="page">
     <div class="card">
       <div class="card-body">
-        <p class="eyebrow">Birthday Celebration</p>
-
         <% if (event.photoPath) { %>
           <div class="photo-wrap">
             <div class="photo-frame">
-              <img src="<%= event.photoPath %>" alt="<%= event.personName %>">
+              <img src="<%= event.photoPath %>" alt="<%= event.personName %>" onerror="this.closest('.photo-wrap').style.display='none'">
             </div>
           </div>
         <% } %>
+
+        <p class="eyebrow">Birthday Celebration</p>
 
         <h1 class="title">
           <%= event.title || (event.personName ? event.personName + "'s Birthday" : "It's a Birthday!") %>
