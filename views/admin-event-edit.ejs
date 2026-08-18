@@ -143,7 +143,15 @@
       <% } else { %>
         <% invites.forEach(function (invite) { %>
           <div class="invite-row">
-            <span class="invite-label"><%= invite.familyLabel || 'Unlabeled' %></span>
+            <div class="invite-info">
+              <span class="invite-primary"><%= invite.rsvp ? invite.rsvp.name : (invite.familyLabel || 'Unlabeled') %></span>
+              <% if (invite.rsvp && invite.familyLabel) { %>
+                <span class="invite-secondary"><%= invite.familyLabel %></span>
+              <% } %>
+              <% if (invite.rsvp && invite.rsvp.note) { %>
+                <span class="invite-note" title="<%= invite.rsvp.note %>">&ldquo;<%= invite.rsvp.note %>&rdquo;</span>
+              <% } %>
+            </div>
             <input type="text" id="link-<%= invite.id %>" readonly value="<%= baseUrl %>/i/<%= invite.token %>">
             <button type="button" class="btn btn-secondary" data-copy-target="link-<%= invite.id %>">Copy</button>
             <% if (invite.rsvp) { %>
