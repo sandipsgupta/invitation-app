@@ -87,6 +87,13 @@ not appended, since each invite has exactly one current RSVP:
 
 **Public**
 - `GET /` — stub/health check (no more single global event).
+- `GET /e/:eventId` — stable, permanent public "join" link for an event
+  (shareable one-to-many, e.g. a group chat). Mints a fresh invite for
+  each new visitor (tracked via a cookie), then redirects into
+  `/i/:token` below. Concurrent visitors never collide since each gets
+  their own invite/RSVP slot; still capped by `maxFamilies`. This is
+  the safe alternative to literally sharing one invite link, which the
+  upsert-per-token model can't support (would overwrite responses).
 - `GET /i/:token` — renders the invite; pre-filled + "update your RSVP"
   banner if `invite.rsvp` already exists. Invalid token → generic error
   page, no information leak about which tokens are valid.
