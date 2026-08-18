@@ -1,5 +1,13 @@
 const express = require('express');
 
+// Messaging apps (WhatsApp, iMessage/Applebot, Slack, etc.) fetch a shared
+// URL server-side to build a link-preview card *before* a human ever opens
+// it — sometimes more than once per share. If the public join route minted
+// a real invite on every plain GET, each share would silently burn 1-2
+// phantom family slots. Matched requests get a static, side-effect-free
+// preview page instead.
+const LINK_PREVIEW_BOT_PATTERN = /bot|facebookexternalhit|whatsapp|telegram|slackbot|discordbot|skypeuripreview|linkedinbot|pinterest|embedly|iframely|outbrain|redditbot|vkshare|w3c_validator/i;
+
 function makePublicRouter({ store, csrf, rsvpLimiter, isProduction }) {
   const router = express.Router();
   const { csrfProtection } = csrf;
@@ -24,6 +32,11 @@ function makePublicRouter({ store, csrf, rsvpLimiter, isProduction }) {
   router.get('/e/:eventId', rsvpLimiter, (req, res) => {
     const event = store.getEvent(req.params.eventId);
     if (!event || event.status !== 'live') return res.status(404).render('invite-invalid');
+
+    const userAgent = req.headers['user-agent'] || '';
+    if (LINK_PREVIEW_BOT_PATTERN.test(userAgent)) {
+      return res.render('link-preview', { event });
+    }
 
     const cookieName = `invite_${event.id}`;
     const existingToken = req.cookies[cookieName];
