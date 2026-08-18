@@ -89,7 +89,7 @@ app.use(
 app.use('/uploads', express.static(uploadsRootFor(DATA_DIR)));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(makePublicRouter({ store, csrf, rsvpLimiter }));
+app.use(makePublicRouter({ store, csrf, rsvpLimiter, isProduction }));
 app.use(
   makeAdminRouter({
     store,

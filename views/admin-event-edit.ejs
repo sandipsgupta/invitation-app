@@ -128,13 +128,22 @@
         <div class="stat"><div class="num"><%= guestTotal %></div><div class="lbl">Total guests</div></div>
       </div>
 
+      <div style="background:#F7F5F0; border-radius:10px; padding:14px 16px; margin-bottom:18px;">
+        <p style="margin:0 0 8px; font-size:13px; font-weight:600;">Public link — share with a group chat or broadcast</p>
+        <p style="margin:0 0 10px; font-size:12px; color:#746E60;">Each person who opens this gets their own RSVP, tracked in their browser. Simpler to send, but less control than individual links below — revoke won't work per-person, and it still counts against your family cap.</p>
+        <div style="display:flex; gap:10px;">
+          <input type="text" id="public-link" readonly value="<%= baseUrl %>/e/<%= event.id %>" style="margin-bottom:0; background:#fff;">
+          <button type="button" class="btn btn-secondary" data-copy-target="public-link" style="white-space:nowrap;">Copy</button>
+        </div>
+      </div>
+
       <% if (atCap) { %>
         <p class="error-note">You've reached the limit of <%= event.maxFamilies %> families for this event. Raise the cap above to invite more.</p>
       <% } else { %>
         <form method="POST" action="/admin/events/<%= event.id %>/invites" style="display:flex; gap:10px; margin-bottom:18px;">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <input type="text" name="familyLabel" placeholder="Optional label, e.g. Verma family" maxlength="120" style="margin-bottom:0; flex:1;">
-          <button type="submit" class="btn btn-primary" style="white-space:nowrap;">+ Generate invite link</button>
+          <button type="submit" class="btn btn-primary" style="white-space:nowrap;">+ Generate individual invite link</button>
         </form>
       <% } %>
 
