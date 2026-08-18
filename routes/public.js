@@ -49,7 +49,7 @@ function makePublicRouter({ store, csrf, rsvpLimiter, isProduction }) {
           message: "This event has reached its guest limit. Please contact your host directly."
         });
       }
-      invite = store.createInvite(event.id, '');
+      invite = store.createInvite(event.id, '', 'public');
       res.cookie(cookieName, invite.token, {
         httpOnly: true,
         sameSite: 'lax',

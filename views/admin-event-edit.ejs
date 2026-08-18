@@ -161,8 +161,12 @@
                 <span class="invite-note" title="<%= invite.rsvp.note %>">&ldquo;<%= invite.rsvp.note %>&rdquo;</span>
               <% } %>
             </div>
-            <input type="text" id="link-<%= invite.id %>" readonly value="<%= baseUrl %>/i/<%= invite.token %>">
-            <button type="button" class="btn btn-secondary" data-copy-target="link-<%= invite.id %>">Copy</button>
+            <% if (invite.source === 'public') { %>
+              <span style="font-size:11.5px; color:#A99884; flex:1;">via public link</span>
+            <% } else { %>
+              <input type="text" id="link-<%= invite.id %>" readonly value="<%= baseUrl %>/i/<%= invite.token %>">
+              <button type="button" class="btn btn-secondary" data-copy-target="link-<%= invite.id %>">Copy</button>
+            <% } %>
             <% if (invite.rsvp) { %>
               <span class="invite-status <%= invite.rsvp.attending %>">
                 <%= invite.rsvp.attending === 'yes' ? `Yes (${invite.rsvp.guests})` : 'No' %>
