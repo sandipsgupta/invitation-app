@@ -164,3 +164,23 @@ roadmap — see the database note above.
   (or hide it) while `event.updatedAt === event.createdAt`, since that
   equality only holds pre-first-save. Small UI-only change in
   `views/admin-event-edit.ejs` + `routes/admin.js`.
+
+- **Optional public "who's attending" list on the guest-facing invite
+  page.** Real motivating problem: two people in the same household
+  (e.g. Mom and Dad) each opening the **public** join link separately
+  get counted as two different families, since public-link identity is
+  per-browser-cookie, not per-household. The idea was showing existing
+  RSVPs as a nudge so the second person recognizes their family already
+  responded — but that only reduces the chance of a duplicate, it
+  doesn't prevent it (they might not look, or might not recognize the
+  entry).
+  **The actual fix needs no new code**: for households where duplicate
+  risk matters, use an admin-generated *individual* link (shared within
+  that family) instead of the public link — same token regardless of
+  who in the family opens it, so it can never duplicate. Public link
+  stays best for broadcast-to-strangers/acquaintances where duplicates
+  don't matter much. Documented as guidance for now; revisit the
+  guest-list toggle only if the individual-link workaround proves
+  insufficient in practice. If built later: per-event toggle (default
+  **off**), attending names only (never declines), reveal only after
+  the visitor's own RSVP — see prior note for design details.
