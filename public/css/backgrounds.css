@@ -138,9 +138,145 @@ body.bg-starry-night .card::before {
   background: linear-gradient(90deg, #8C6FE0, #6C4FC2, #8C6FE0);
 }
 
+body.bg-sunset-blush {
+  --bg: linear-gradient(160deg, #FFD9B3 0%, #FFB6A3 45%, #FF8FA3 100%);
+  --card-bg: #FFFDFB;
+  --ink: #4A2A2E;
+  --ink-soft: #8A5A5E;
+  --ink-faint: #D9B8B8;
+  --accent: #E8664F;
+  --accent-dark: #C24A34;
+  --accent-soft: rgba(232, 102, 79, 0.16);
+  --on-accent: #FFFDFB;
+  --details-bg: #FFEDE3;
+  --field-border: #F5D5C8;
+  --field-bg: #FFFFFF;
+}
+body.bg-sunset-blush .card::before {
+  content: "";
+  display: block;
+  height: 18px;
+  background-image:
+    radial-gradient(circle 3px, #E8664F 96%, transparent 100%),
+    radial-gradient(circle 3px, #F2A65A 96%, transparent 100%),
+    radial-gradient(circle 3px, #FFD9B3 96%, transparent 100%),
+    radial-gradient(circle 3px, #E8664F 96%, transparent 100%);
+  background-position: 8px 6px, 26px 12px, 44px 4px, 62px 10px;
+  background-size: 80px 18px;
+  background-repeat: repeat-x;
+  background-color: #FFE3D2;
+}
+
+body.bg-ocean-breeze {
+  --bg: linear-gradient(160deg, #DFF6FF 0%, #C7E9FB 40%, #A8D8EA 100%);
+  --card-bg: #FFFFFF;
+  --ink: #123A4A;
+  --ink-soft: #4A7A8C;
+  --ink-faint: #B7D9E3;
+  --accent: #1F9AC4;
+  --accent-dark: #14708F;
+  --accent-soft: rgba(31, 154, 196, 0.16);
+  --on-accent: #FFFFFF;
+  --details-bg: #EAF7FC;
+  --field-border: #CDE9F2;
+  --field-bg: #FFFFFF;
+}
+body.bg-ocean-breeze .card::before {
+  content: "";
+  display: block;
+  height: 20px;
+  background-image:
+    radial-gradient(circle at 10px 20px, #1F9AC4 0 8px, transparent 9px),
+    radial-gradient(circle at 30px 20px, #7FD3E8 0 8px, transparent 9px),
+    radial-gradient(circle at 50px 20px, #A8D8EA 0 8px, transparent 9px),
+    radial-gradient(circle at 70px 20px, #1F9AC4 0 8px, transparent 9px),
+    radial-gradient(circle at 90px 20px, #7FD3E8 0 8px, transparent 9px);
+  background-size: 100px 20px;
+  background-repeat: repeat-x;
+  background-color: #DFF6FF;
+}
+
+body.bg-emerald-garden {
+  --bg: radial-gradient(circle at 20% 10%, #DFF3E3 0%, transparent 50%),
+        radial-gradient(circle at 80% 0%, #C9EAD1 0%, transparent 50%),
+        #F4FBF6;
+  --card-bg: #FFFFFF;
+  --ink: #1E3A2A;
+  --ink-soft: #4F7A5E;
+  --ink-faint: #BEDCC7;
+  --accent: #2F9E5E;
+  --accent-dark: #217A46;
+  --accent-soft: rgba(47, 158, 94, 0.16);
+  --on-accent: #FFFFFF;
+  --details-bg: #E9F7ED;
+  --field-border: #CDEAD8;
+  --field-bg: #FFFFFF;
+}
+body.bg-emerald-garden .card::before {
+  content: "";
+  display: block;
+  height: 18px;
+  background-image:
+    radial-gradient(circle 3px, #2F9E5E 96%, transparent 100%),
+    radial-gradient(circle 3px, #7FCB9A 96%, transparent 100%),
+    radial-gradient(circle 3px, #C9EAD1 96%, transparent 100%),
+    radial-gradient(circle 3px, #2F9E5E 96%, transparent 100%);
+  background-position: 8px 6px, 26px 12px, 44px 4px, 62px 10px;
+  background-size: 80px 18px;
+  background-repeat: repeat-x;
+  background-color: #DFF3E3;
+}
+
+body.bg-berry-sparkle {
+  --bg: radial-gradient(circle at 50% 0%, #4A1942 0%, #2B0F2E 70%);
+  --card-bg: #FFFDFC;
+  --ink: #3A1430;
+  --ink-soft: #7A4A6E;
+  --ink-faint: #D9C0D2;
+  --accent: #C2318C;
+  --accent-dark: #8E2168;
+  --accent-soft: rgba(194, 49, 140, 0.16);
+  --on-accent: #FFFDFC;
+  --details-bg: #FBEAF4;
+  --field-border: #F0D3E6;
+  --field-bg: #FFFFFF;
+}
+body.bg-berry-sparkle .card::before {
+  content: "";
+  display: block;
+  height: 6px;
+  background: linear-gradient(90deg, #C2318C, #E8A4C9, #C2318C);
+}
+
+body.bg-classic-ivory {
+  --bg: linear-gradient(180deg, #F7F3EA 0%, #FBF9F4 100%);
+  --card-bg: #FFFFFF;
+  --ink: #2B2620;
+  --ink-soft: #6B6055;
+  --ink-faint: #C9C0B2;
+  --accent: #8A7148;
+  --accent-dark: #6B5636;
+  --accent-soft: rgba(138, 113, 72, 0.14);
+  --on-accent: #FFFFFF;
+  --details-bg: #F5F1E7;
+  --field-border: #E5DDCB;
+  --field-bg: #FFFFFF;
+}
+body.bg-classic-ivory .card::before {
+  content: "";
+  display: block;
+  height: 6px;
+  background: linear-gradient(90deg, #C9BB98, #8A7148, #C9BB98);
+}
+
 /* Swatch previews used by the admin background picker */
 .swatch.swatch-confetti { background: linear-gradient(135deg, #FFE3EC, #E3D6F7); }
 .swatch.swatch-pastel-balloons { background: linear-gradient(135deg, #E9F4FF, #FDEFFB); }
 .swatch.swatch-golden-elegance { background: linear-gradient(135deg, #3A3428, #B8912F); }
 .swatch.swatch-tropical-fiesta { background: linear-gradient(135deg, #0F5E56, #E8944A); }
 .swatch.swatch-starry-night { background: linear-gradient(135deg, #171736, #8C6FE0); }
+.swatch.swatch-sunset-blush { background: linear-gradient(135deg, #FFD9B3, #FF8FA3); }
+.swatch.swatch-ocean-breeze { background: linear-gradient(135deg, #DFF6FF, #1F9AC4); }
+.swatch.swatch-emerald-garden { background: linear-gradient(135deg, #DFF3E3, #2F9E5E); }
+.swatch.swatch-berry-sparkle { background: linear-gradient(135deg, #4A1942, #C2318C); }
+.swatch.swatch-classic-ivory { background: linear-gradient(135deg, #F7F3EA, #8A7148); }
